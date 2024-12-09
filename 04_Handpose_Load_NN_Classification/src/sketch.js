@@ -49,6 +49,9 @@ function setup() {
   handPose.detectStart(video, gotHands);
 }
 
+
+
+
 function draw() {
   //Display the webcam video
   image(video, 0, 0, width, height);
@@ -73,6 +76,9 @@ function draw() {
     text(classification, 20, 60);
   }
 }
+
+
+
 
 // convert the handPose data to a 1D array
 function flattenHandData() {
