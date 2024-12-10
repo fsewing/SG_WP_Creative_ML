@@ -16,7 +16,7 @@ let video;
 let label = "Model loading...";
 
 let server_port = "5500" // the port of the live server
-let imageModelURL = "http://127.0.0.1:"+server_port+"/Examples/TeachableMachine/00_TeachableMachine_Lightbulb/model/";
+let imageModelURL = "http://127.0.0.1:"+server_port+"/Examples/TeachableMachine/01_ImageClassification_Lightbulb/model/";
 
 function preload() {
   ml5.setBackend('webgl');

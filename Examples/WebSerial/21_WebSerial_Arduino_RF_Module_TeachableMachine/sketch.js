@@ -3,56 +3,71 @@
 
 let port;
 let connectBtn;
-let sendOnBtn;
-let sendOffBtn;
+
+let classifier;
+let video;
+let label = "Model loading...";
+
+let server_port = "5500" // the port of the live server
+let imageModelURL = "http://127.0.0.1:"+server_port+"/Examples/WebSerial/21_WebSerial_Arduino_RF_Module_TeachableMachine/model/";
+
+function preload() {
+  ml5.setBackend('webgl');
+  classifier = ml5.imageClassifier(imageModelURL + "model.json");
+}
 
 function setup() {
-  createCanvas(400, 400);
-  background(220);
+  createCanvas(640, 480);
+  
+  video = createCapture(VIDEO, { flipped: true });
+  video.size(640, 480);
+  video.hide();
+
+  classifier.classifyStart(video, gotResult);
 
   port = createSerial();
-
-  // in setup, we can open ports we have used previously
-  // without user interaction
 
   let usedPorts = usedSerialPorts();
   if (usedPorts.length > 0) {
     port.open(usedPorts[0], 9600);
   }
 
-  // any other ports can be opened via a dialog after
-  // user interaction (see connectBtnClick below)
-
   connectBtn = createButton('Connect to Arduino');
-  connectBtn.position(40, 100);
+  connectBtn.position(40, 480);
   connectBtn.mousePressed(connectBtnClick);
-
-  sendOnBtn = createButton('Send On');
-  sendOnBtn.position(40, 200);
-  sendOnBtn.mousePressed(sendOnBtnClick);
-
-  sendOffBtn = createButton('Send Off');
-  sendOffBtn.position(100, 200);
-  sendOffBtn.mousePressed(sendOffBtnClick);
 }
 
+let lightIsOn = false;
+
 function draw() {
-  // this makes received text scroll up
-  copy(0, 0, width, height, 0, -1, width, height);
 
-  // reads in complete lines and prints them at the
-  // bottom of the canvas
-  let str = port.readUntil("\n");
-  if (str.length > 0) {
-    text(str, 10, height-20);
-  }
+  connectBtnStatus();
 
-  // changes button label based on connection status
-  if (!port.opened()) {
-    connectBtn.html('Connect to Arduino');
-  } else {
-    connectBtn.html('Disconnect');
+  image(video, 0, 0);
+  textSize(50);
+
+  if(label == "on" && lightIsOn == false){
+    port.write("on1\n");
+    lightIsOn = true;
   }
+  if(label == "off" && lightIsOn == true){
+    port.write("off1\n");
+    lightIsOn = false;
+  }
+  if(label == "idle"){
+    text("Need a Stiky Note!",50,100);
+  }
+  if(lightIsOn == true){
+    text("On ..",50,50);
+  }
+  if(lightIsOn == false){
+    text("Off ...",50,50);
+  }
+}
+
+function gotResult(results) {
+  // Update label variable which is displayed on the canvas
+  label = results[0].label;
 }
 
 function connectBtnClick() {
@@ -63,9 +78,11 @@ function connectBtnClick() {
   }
 }
 
-function sendOnBtnClick() {
-  port.write("on1\n");
-}
-function sendOffBtnClick() {
-  port.write("off1\n");
+function connectBtnStatus(){
+  // changes button label based on connection status
+  if (!port.opened()) {
+    connectBtn.html('Connect to Arduino');
+  } else {
+    connectBtn.html('Disconnect');
+  }
 }
