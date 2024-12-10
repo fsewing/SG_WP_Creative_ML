@@ -91,5 +91,20 @@ async function post(url, payload) {
   return data;
 }
 
+/**
+ * Checks if the provided function is an arrow function
+ *
+ * @param {(Function | (() => void))} func - The function to be checked
+ * @returns {boolean} It returns `true` if the provided function is an arrow function, otherwise `false`
+ */
+function isArrowFunction(func) {
+  // Überprüfen, ob es sich um eine Funktion handelt
+  if (typeof func !== "function") {
+    throw new TypeError("The provided argument is not a function");
+  }
+  // Prüfen, ob die Funktion keine `prototype`-Eigenschaft hat (typisch für Arrow Functions)
+  return !func.prototype;
+}
+
 // Chatbot Ende
 /////////////////////
