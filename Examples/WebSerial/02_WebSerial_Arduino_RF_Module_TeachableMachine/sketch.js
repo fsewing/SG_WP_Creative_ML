@@ -72,7 +72,7 @@ function gotResult(results) {
 
 function connectBtnClick() {
   if (!port.opened()) {
-    port.open('Arduino', 9600);
+    port.open('MicroPython', 9600);
   } else {
     port.close();
   }
