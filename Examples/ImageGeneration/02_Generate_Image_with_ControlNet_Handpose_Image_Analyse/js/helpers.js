@@ -77,7 +77,7 @@ async function generateImage() {
 
   auto1111.isAsking = true;
   const { response } = await post("http://172.17.11.18:8888/img/generate", {
-    prompt: "What can you see here?",
+    prompt: "Make a Christmas poem from the picture you see. with the theme of pairs. only eight lines.",
     base64,
   });
   auto1111.isAsking = false;

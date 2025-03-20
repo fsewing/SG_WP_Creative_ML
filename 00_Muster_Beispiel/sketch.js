@@ -1,5 +1,5 @@
 // @ts-check
-
+let i = 1;
 
 function preload() {
   img = loadGenImg("Cat")

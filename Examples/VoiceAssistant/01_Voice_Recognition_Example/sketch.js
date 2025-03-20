@@ -1,4 +1,3 @@
-// @ts-check
 
 let canvas;
 let speechRecording;
@@ -9,7 +8,6 @@ const TRIANGLE = "dreieck";
 
 let shape = "";
 
-// ############################# p5.js
 function preload() {}
 
 function setup() {
@@ -20,7 +18,6 @@ function setup() {
   canvas.mousePressed(onMousePress);
   canvas.doubleClicked(onDoubleClick);
 
-  // @ts-expect-error Property 'SpeechRec' does not exist on type '(sketch: object, node: string | object) => void'.ts(2339)
   speechRecording = new p5.SpeechRec("de-DE", onRecordingResult);
   speechRecording.continuous = true;
   speechRecording.interimResults = true;
