@@ -17,6 +17,7 @@ function setup() {
   textField.attribute('placeholder', 'message to LLM')
   textField.position(0, height);
   textField.size(width-100);
+
   // Send chatmessage to local Ollama LLM
   sendButton = createButton('send to LLM');
   sendButton.size(100);
@@ -27,7 +28,7 @@ function setup() {
 function draw() {
   background(0,0,255);
   
-  if(!LLM_is_processing) // if the LLM has an response show it here:
+  if(!LLM_is_processing) // if the LLM has a response show it here:
   {
     fill(255);
     stroke(30);
@@ -40,6 +41,13 @@ function draw() {
     }
 
     text(chatHistory,20,20,width-20,height-20);
+  
+    // Text input is selected and ENTER pressed
+    if (document.activeElement === textField.elt && keyIsDown(ENTER)) {
+      background(0,255,255);
+      sendInputValueToLLM();
+    }
+
   } // show the response END
 
   if(LLM_is_processing) // if the LLM is processing the request display a loading animation ... for fun
