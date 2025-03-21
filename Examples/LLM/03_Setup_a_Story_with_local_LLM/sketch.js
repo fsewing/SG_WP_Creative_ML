@@ -11,18 +11,18 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(512, 512);
+  createCanvas(windowWidth, windowHeight);
   
   //input Field for Chat
   textField = createInput('');
   textField.attribute('placeholder', 'What should be the story about?')
-  textField.position(0, height);
+  textField.position(0, height-30);
   textField.size(width-100, 30);
 
   // Send chatmessage to local Ollama LLM
   sendButton = createButton('Start a story!');
   sendButton.size(100, 30);
-  sendButton.position(width-100, height);
+  sendButton.position(width-100, height-30);
   sendButton.mousePressed(sendInputValueToLLM);
 
   //console.log(storyPrompt)
