@@ -3,8 +3,11 @@ let LLM_response;
 let LLM_is_processing = false;
 let animation = 0;
 
-let prompt = "Give a list of the objects that you see in this image. Do not describe the background. Give just a list of the objects, separated by commas.";
-let imgName = "robot-seal.jpg";
+//let prompt = "Give a list of the objects that you see in this image. Do not describe the background. Give just a list of the objects, separated by commas.";
+//let prompt = "This is a drawing made by a kid. Describe shortly what do you see in the scene. Give your answer as a list, separated by commas.";
+//let prompt = "This is a drawing made by a kid. First, describe shortly what do you see in the scene. Give your answer as a list, separated by commas. Then, write the beginning of a bed time story for children based on what do you see in the drawing. Write only one paragraph, starting with 'Once upon a time'";
+let prompt = "This is a drawing made by a kid. Write the beginning of a bed time story for children based on what do you see in the drawing. Write only one paragraph, starting with 'Once upon a time'";
+let imgName = "drawing-penguin.jpg";
 
 function preload() {
   img = loadImage(imgName); // load an image
