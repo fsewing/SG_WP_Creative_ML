@@ -3,8 +3,11 @@ let LLM_response;
 let LLM_is_processing = false;
 let animation = 0;
 
-function preload(){
-  img = loadImage("test2.jpg"); // load an image
+let prompt = "Give a list of the objects that you see in this image. Do not describe the background. Give just a list of the objects, separated by commas.";
+let imgName = "robot-seal.jpg";
+
+function preload() {
+  img = loadImage(imgName); // load an image
 }
 
 function setup() {
@@ -40,11 +43,11 @@ function draw() {
 
 
 function mousePressed(){
-  let txt = "What can you see in this image?";
-  txt = "Count the red sticky notes in this picture.";
+  
+  // txt = "Count the red sticky notes in this picture.";
   // txt= "Write a very short story for Kids about this picture in the style of Arnold Schwarzenegger."
 
-  LLM_Text_Image(txt, img);
+  LLM_Text_Image(prompt, img);
   console.log("Waiting for response from Ollama ...");
 }
 
