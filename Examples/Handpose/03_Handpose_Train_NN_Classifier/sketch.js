@@ -36,8 +36,9 @@ function setup() {
   
   // dropdown menu to select the class whose hand poses are to be assigned
   dataLabel = createSelect();
-  dataLabel.option('A');
-  dataLabel.option('B');
+  dataLabel.option('1');
+  dataLabel.option('2');
+  dataLabel.option('3');
   //dataLabel.option('C');
   //dataLabel.option('D');
   //... copy paste if you need more classes

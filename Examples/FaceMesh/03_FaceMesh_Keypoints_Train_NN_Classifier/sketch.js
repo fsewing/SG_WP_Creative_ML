@@ -67,12 +67,20 @@ function draw() {
   // Draw all the tracked face points
   for (let i = 0; i < faces.length; i++) {
     let face = faces[i];
+
+    let keypoint = face.keypoints[66];
+    circle(keypoint.x, keypoint.y, 5);
+
+    keypoint = face.keypoints[67];
+    circle(keypoint.x, keypoint.y, 5);
+    /*
     for (let j = 0; j < face.keypoints.length; j++) {
       let keypoint = face.keypoints[j];
       fill(0, 255, 0);
       noStroke();
       circle(keypoint.x, keypoint.y, 5);
     }
+    */
   }
 }
 
@@ -105,10 +113,21 @@ function saveModelButtonFunction(){
 function getInputs(face) {
   let keypoints = face.keypoints;
   let inputs = [];
+
+  inputs.push(keypoints[66].x);
+  inputs.push(keypoints[66].y);
+  inputs.push(keypoints[66].z);
+
+  inputs.push(keypoints[67].x);
+  inputs.push(keypoints[67].y);
+  inputs.push(keypoints[67].z);
+
+  /*
   for (let i = 0; i < keypoints.length; i++) {
     inputs.push(keypoints[i].x);
     inputs.push(keypoints[i].y);
     inputs.push(keypoints[i].z);
   }
+    */
   return inputs;
 }
