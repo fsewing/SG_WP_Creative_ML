@@ -2,7 +2,7 @@ let textField;
 let sendButton;
 let messages = [];
 let LLM_response;
-let chatHistory;
+let chatHistory = "";
 let LLM_is_processing = false;
 let animation = 0;
 
@@ -12,43 +12,64 @@ function preload(){
 function setup() {
   createCanvas(512, 512);
   
-  //input Field for Chat
+  // Input Field for Chat
   textField = createInput('');
-  textField.attribute('placeholder', 'message to LLM')
+  textField.attribute('placeholder', 'Message to LLM')
   textField.position(0, height);
-  textField.size(width-100);
+  textField.size(width - 120);
 
-  // Send chatmessage to local Ollama LLM
-  sendButton = createButton('send to LLM');
-  sendButton.size(100);
-  sendButton.position(width-100, height);
+  textField.style('font-size', '14px');
+  textField.style('font-family', 'monospace');
+  textField.style('border', '1px solid #000');
+  textField.style('border-radius', '0');
+  textField.style('outline', 'none');      // removes focus ring
+  textField.style('box-shadow', 'none');   // some browsers use shadow on focus too
+  textField.style('padding', '5px');
+
+  // Send button to local Ollama LLM
+  sendButton = createButton('Send to LLM');
+  sendButton.size(120);
+  sendButton.position(width - 120, height);
   sendButton.mousePressed(sendInputValueToLLM);
+
+  sendButton.style('font-size', '14px');
+  sendButton.style('font-family', 'monospace');
+  sendButton.style('color', '#fff');
+  sendButton.style('background', '#000');
+  sendButton.style('border', '1px solid #000');
+  sendButton.style('border-radius', '0');
+  sendButton.style('outline', 'none');
+  sendButton.style('box-shadow', 'none');
+  sendButton.style('padding', '5px 0px');
 }
 
 function draw() {
   background(0,0,255);
+  chatHistory = "";
   
-  if(!LLM_is_processing) // if the LLM has a response show it here:
-  {
+  //if(!LLM_is_processing) // if the LLM has a response show it here:
+  //{
     fill(255);
     stroke(30);
     strokeWeight(1);
-    textSize(20);
+
+    textFont('monospace'); // use system monospace font
+    textSize(14);
     textAlign(LEFT, BOTTOM);
+
     for(let i = 0; i<messages.length; i++)
     {
-      chatHistory = chatHistory + "\n" + messages[i].content;
+      chatHistory = chatHistory + "\n\n" + ((messages[i].role == 'user') ? "> " : "") + messages[i].content;
     }
 
-    text(chatHistory,20,20,width-20,height-20);
+    text(chatHistory, 6, 20, width-5, height-42);
   
     // Text input is selected and ENTER pressed
-    if (document.activeElement === textField.elt && keyIsDown(ENTER)) {
-      background(0,255,255);
+    if (document.activeElement === textField.elt && textField.value().trim() !== '' && keyIsDown(ENTER)) {
       sendInputValueToLLM();
     }
 
-  } // show the response END
+  //} // show the response END
 
   if(LLM_is_processing) // if the LLM is processing the request display a loading animation ... for fun
   {
@@ -66,7 +87,10 @@ function draw() {
 
 
 function sendInputValueToLLM(){
+
   let userMessage = textField.value();
+  textField.value('');
+
   messages.push(
     {
       role: "user",
